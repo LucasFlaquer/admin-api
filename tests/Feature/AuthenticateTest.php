@@ -10,7 +10,25 @@ use Tests\TestCase;
 
 class AuthenticateTest extends TestCase
 {
+    /**
+     * @var User()
+     */
+    private $user;
+
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $user = new User();
+        $user->name = 'lucas';
+        $user->email = 'lucas.flaquer@gmail.com';
+        $user->password = bcrypt('123');
+        $user->save();
+        $this->user = $user;
+    }
+
+
     /**
      * A basic feature test example.
      *
@@ -18,12 +36,6 @@ class AuthenticateTest extends TestCase
      */
     public function testLogin()
     {
-        $user = new User();
-        $user->name = 'lucas';
-        $user->email = 'lucas.flaquer@gmail.com';
-        $user->password = bcrypt('123');
-        $user->save();
-
         $baseUrl = Config::get('app.url') . 'api/auth/login';
         $email = 'lucas.flaquer@gmail.com';
         $password = '1234';
